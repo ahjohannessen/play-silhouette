@@ -23,6 +23,7 @@ import io.github.honeycombcheesecake.play.silhouette.api.util.{ ExtractableReque
 import io.github.honeycombcheesecake.play.silhouette.api.{ Authenticator, LoginInfo }
 import play.api.http.HttpEntity
 import play.api.mvc._
+import play.api.libs.typedmap.TypedMap
 
 import scala.concurrent.Future
 
@@ -44,7 +45,7 @@ import scala.concurrent.Future
  * @param result The result to wrap.
  */
 class AuthenticatorResult(result: Result)
-  extends Result(result.header, result.body, result.newSession, result.newFlash, result.newCookies) {
+  extends Result(result.header, result.body, result.newSession, result.newFlash, result.newCookies, result.attrs) {
 
   /**
    * Creates a new copy of a `AuthenticatorResult`.
@@ -61,8 +62,9 @@ class AuthenticatorResult(result: Result)
     body: HttpEntity,
     newSession: Option[Session],
     newFlash: Option[Flash],
-    newCookies: Seq[Cookie]) = {
-    AuthenticatorResult(super.copy(header, body, newSession, newFlash, newCookies))
+    newCookies: Seq[Cookie],
+    attrs: TypedMap) = {
+    AuthenticatorResult(super.copy(header, body, newSession, newFlash, newCookies, attrs))
   }
 }
 
